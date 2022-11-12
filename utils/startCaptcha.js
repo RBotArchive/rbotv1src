@@ -6,14 +6,15 @@ const path = require('node:path');
 module.exports = async function (client, interaction) {
     client.logger.info(interaction.user.tag + " started CAPTCHA.")
     let captcha = new Captcha();
-    await captcha.JPEGStream.pipe(await fs.createWriteStream(`../${interaction.user.id}.jpg`));
-    const file = new AttachmentBuilder(`../${interaction.user.id}.jpg`);
+    await captcha.JPEGStream.pipe(await fs.createWriteStream(`${interaction.user.id}.jpg`));
+    const file = new AttachmentBuilder(`${interaction.user.id}.jpg`);
     replyembed = new EmbedBuilder()
     .setColor(0x0099FF)
     .setTitle("CAPTCHA")
     .setDescription("Le système de vérification est simple. Vous devez simplement écrire les lettres et chiffres contenus dans l'image ci-dessous pour obtenir accès au serveur.")
     .setAuthor({name: "RBot", iconURL: client.user.avatarURL()})
-    interaction.reply({embeds: [replyembed], files: [file], ephemeral: true});
+    await interaction.reply({embeds: [replyembed], files: [file], ephemeral: true});
+    fs.unlink(`${interaction.user.id}.jpg`, () => {})
     const filter = m => m.author.id === interaction.user.id
     const collector = interaction.channel.createMessageCollector({ filter, time: 60000 });
     tries = 3;

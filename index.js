@@ -25,14 +25,14 @@ client.logger = winstonLoader.getLogger('app');
 
 const { Database } = require('quickmongo');
 
-const db = new Database("mongodb+srv://RASTIQ:vavdDHDLdYmG3Nmj@cluster0.pdyas0l.mongodb.net/rastiqnetwork?retryWrites=true&w=majority");
+client.db = new Database("mongodb+srv://RASTIQ:vavdDHDLdYmG3Nmj@cluster0.pdyas0l.mongodb.net/rastiqnetwork?retryWrites=true&w=majority");
 
-db.on("ready", () => {
+client.db.on("ready", () => {
     client.logger.info("Connected to the database");
 });
 
 const connect = async function () {
-	await db.connect();
+	await client.db.connect();
 }
 
 connect();
@@ -72,6 +72,10 @@ connect();
         await db.get("foo"); // null
     }, 60_000);
 } */
+
+// XP Stuff
+
+client.talkedRecently = new Map();
 
 // COMMANDS
 
