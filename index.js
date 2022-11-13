@@ -7,17 +7,17 @@ require("dotenv").config();
 const token = process.env.TOKEN;
 
 const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessageReactions,
-    GatewayIntentBits.DirectMessages,
-    GatewayIntentBits.GuildEmojisAndStickers,
-    GatewayIntentBits.GuildInvites,
-    GatewayIntentBits.GuildMembers,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.GuildPresences,
-    GatewayIntentBits.MessageContent,
-  ],
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.GuildEmojisAndStickers,
+        GatewayIntentBits.GuildInvites,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildPresences,
+        GatewayIntentBits.MessageContent,
+    ],
 });
 
 // LOGS
@@ -36,16 +36,16 @@ client.logger = winstonLoader.getLogger("app");
 const { Database } = require("quickmongo");
 
 client.xpDB = new Database(
-  "mongodb+srv://RASTIQ:vavdDHDLdYmG3Nmj@cluster0.pdyas0l.mongodb.net/rastiqnetwork?retryWrites=true&w=majority",
-  { collectionName: "xp" }
+    "mongodb+srv://RASTIQ:vavdDHDLdYmG3Nmj@cluster0.pdyas0l.mongodb.net/rastiqnetwork?retryWrites=true&w=majority",
+    { collectionName: "xp" }
 );
 
 client.xpDB.on("ready", () => {
-  client.logger.info("Connected to the XP Database");
+    client.logger.info("Connected to the XP Database");
 });
 
 const XPconnect = async function () {
-  await client.xpDB.connect();
+    await client.xpDB.connect();
 };
 
 XPconnect();
@@ -94,13 +94,13 @@ client.talkedRecently = new Map();
 
 const { GiveawaysManager } = require("./utils/giveaways/index.js");
 const manager = new GiveawaysManager(client, {
-  storage: "./giveaways.json",
-  default: {
-    botsCanWin: false,
-    embedColor: "#FF0000",
-    embedColorEnd: "#000000",
-    reaction: "🎉",
-  },
+    storage: "./giveaways.json",
+    default: {
+        botsCanWin: false,
+        embedColor: "#FF0000",
+        embedColorEnd: "#000000",
+        reaction: "🎉",
+    },
 });
 // We now have a giveawaysManager property to access the manager everywhere!
 client.giveawaysManager = manager;
@@ -110,30 +110,30 @@ client.giveawaysManager = manager;
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, "commands");
 const commandFiles = fs
-  .readdirSync(commandsPath)
-  .filter((file) => file.endsWith(".js"));
+    .readdirSync(commandsPath)
+    .filter((file) => file.endsWith(".js"));
 
 for (const file of commandFiles) {
-  const filePath = path.join(commandsPath, file);
-  const command = require(filePath);
-  client.commands.set(command.data.name, command);
+    const filePath = path.join(commandsPath, file);
+    const command = require(filePath);
+    client.commands.set(command.data.name, command);
 }
 
 // EVENTS
 
 const eventsPath = path.join(__dirname, "events");
 const eventFiles = fs
-  .readdirSync(eventsPath)
-  .filter((file) => file.endsWith(".js"));
+    .readdirSync(eventsPath)
+    .filter((file) => file.endsWith(".js"));
 
 for (const file of eventFiles) {
-  const filePath = path.join(eventsPath, file);
-  const event = require(filePath);
-  if (event.once) {
-    client.once(event.name, (...args) => event.execute(client, ...args));
-  } else {
-    client.on(event.name, (...args) => event.execute(client, ...args));
-  }
+    const filePath = path.join(eventsPath, file);
+    const event = require(filePath);
+    if (event.once) {
+        client.once(event.name, (...args) => event.execute(client, ...args));
+    } else {
+        client.on(event.name, (...args) => event.execute(client, ...args));
+    }
 }
 
 // BOT LOGIN
