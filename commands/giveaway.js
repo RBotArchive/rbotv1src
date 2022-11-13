@@ -89,9 +89,7 @@ module.exports = {
                 .addStringOption((option) =>
                     option
                         .setName("giveaway")
-                        .setDescription(
-                            "Le giveaway à reroll (ID de message)."
-                        )
+                        .setDescription("Le giveaway à reroll (ID de message).")
                         .setRequired(true)
                 )
         ),
