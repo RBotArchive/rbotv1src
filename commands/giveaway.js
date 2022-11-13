@@ -2,6 +2,8 @@ const { SlashCommandBuilder } = require("discord.js");
 const startGiveaway = require("../utils/startGiveaway");
 const endGiveaway = require("../utils/endGiveaway");
 const pauseGiveaway = require("../utils/pauseGiveaway");
+const unpauseGiveaway = require("../utils/unpauseGiveaway");
+const rerollGiveaway = require("../utils/rerollGiveaway");
 const ms = require("ms");
 
 module.exports = {
@@ -79,6 +81,19 @@ module.exports = {
                         )
                         .setRequired(true)
                 )
+        )
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName("reroll")
+                .setDescription("Touver un nouveau gagnant à un giveaway.")
+                .addStringOption((option) =>
+                    option
+                        .setName("giveaway")
+                        .setDescription(
+                            "Le giveaway à reroll (ID de message)."
+                        )
+                        .setRequired(true)
+                )
         ),
     async execute(client, interaction) {
         const usender = interaction.user;
@@ -93,6 +108,12 @@ module.exports = {
         }
         if (interaction.options.getSubcommand() === "pause") {
             await pauseGiveaway(client, interaction);
+        }
+        if (interaction.options.getSubcommand() === "unpause") {
+            await unpauseGiveaway(client, interaction);
+        }
+        if (interaction.options.getSubcommand() === "reroll") {
+            await rerollGiveaway(client, interaction);
         }
     },
 };

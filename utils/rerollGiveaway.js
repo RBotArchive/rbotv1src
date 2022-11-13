@@ -20,27 +20,26 @@ module.exports = async function (client, interaction) {
         });
     }
 
-    if (!giveaway.pauseOptions.isPaused) {
+    if (!giveaway.ended) {
         return interaction.reply({
-            content: "Ce giveaway n'est pas en pause.",
+            content: "Ce giveaway n'est pas encore terminé.",
             ephemeral: true,
         });
     }
 
-    // Edit the giveaway
+    // Reroll the giveaway
     client.giveawaysManager
-        .unpause(giveaway.messageId)
-        // Success message
+        .reroll(giveaway.messageId)
         .then(() => {
             // Success message
-            interaction.reply("Giveaway relancé !");
+            interaction.reply("Giveaway reroll !");
             replyembed = new EmbedBuilder()
                 .setColor(0x0099ff)
-                .setTitle("Giveaway relancé")
+                .setTitle("Giveaway reroll")
                 .setDescription(
                     `Giveaway ${interaction.options.getString(
                         "giveaway"
-                    )} relancé par ${interaction.user.username}.`
+                    )} reroll par ${interaction.user.username}.`
                 )
                 .setAuthor({ name: "RBot", iconURL: client.user.avatarURL() });
             return client.channels.cache

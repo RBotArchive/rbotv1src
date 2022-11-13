@@ -29,12 +29,10 @@ module.exports = {
                         (await handleLevelChange(client, message, newLevel))
                 )
                 .setAuthor({ name: "RBot", iconURL: client.user.avatarURL() });
-            client.channels.cache
-                .get("1038028006037397575")
-                .send({
-                    content: `<@${message.author.id}>`,
-                    embeds: [newlevelembed],
-                });
+            client.channels.cache.get("1038028006037397575").send({
+                content: `<@${message.author.id}>`,
+                embeds: [newlevelembed],
+            });
         }
         await client.xpDB.set(`${message.author.id}_currentXp`, newXp);
         client.talkedRecently.set(message.author.id, Date.now() + 10000);
