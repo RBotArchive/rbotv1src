@@ -42,14 +42,8 @@
       "name": "dev-logger",
       "env": "development",
       "options": {
-        "stderrLevels ": [
-          "fatal",
-          "error"
-        ],
-        "consoleWarnLevels": [
-          "debug",
-          "warn"
-        ],
+        "stderrLevels ": ["fatal", "error"],
+        "consoleWarnLevels": ["debug", "warn"],
         "handleExceptions": true,
         "format": [
           {
@@ -73,10 +67,7 @@
         "maxRetries": 3,
         "zippedArchive": true,
         "handleExceptions": true,
-        "filters": [
-          "info",
-          "mark"
-        ]
+        "filters": ["info", "mark"]
       }
     },
     {
@@ -91,9 +82,7 @@
         "maxRetries": 3,
         "zippedArchive": true,
         "handleExceptions": true,
-        "filters": [
-          "warn"
-        ]
+        "filters": ["warn"]
       }
     },
     {
@@ -108,10 +97,7 @@
         "maxRetries": 3,
         "zippedArchive": true,
         "handleExceptions": true,
-        "filters": [
-          "error",
-          "fatal"
-        ]
+        "filters": ["error", "fatal"]
       }
     }
   ],

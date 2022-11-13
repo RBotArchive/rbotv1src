@@ -1,41 +1,54 @@
 // BOT INIT
 
-const fs = require('node:fs');
-const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
-require('dotenv').config();
+const fs = require("node:fs");
+const path = require("node:path");
+const { Client, Collection, Events, GatewayIntentBits } = require("discord.js");
+require("dotenv").config();
 const token = process.env.TOKEN;
 
-const client = new Client({ intents: 
-	[GatewayIntentBits.Guilds, GatewayIntentBits.DirectMessages, GatewayIntentBits.GuildEmojisAndStickers, GatewayIntentBits.GuildInvites, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildPresences, GatewayIntentBits.MessageContent]
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.GuildEmojisAndStickers,
+    GatewayIntentBits.GuildInvites,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.MessageContent,
+  ],
 });
 
 // LOGS
 
 // Import winson-sugar when you need to have a winston instance
-const winstonLoader = require('winston-sugar');
+const winstonLoader = require("winston-sugar");
 
 // This should be called in the application entry point only.
-winstonLoader.config('./config/winston.json');
+winstonLoader.config("./config/winston.json");
 
 // Get winston logger
-client.logger = winstonLoader.getLogger('app');
+client.logger = winstonLoader.getLogger("app");
 
 // DATABASE
 
-const { Database } = require('quickmongo');
+const { Database } = require("quickmongo");
 
-client.db = new Database("mongodb+srv://RASTIQ:vavdDHDLdYmG3Nmj@cluster0.pdyas0l.mongodb.net/rastiqnetwork?retryWrites=true&w=majority");
+client.xpDB = new Database(
+  "mongodb+srv://RASTIQ:vavdDHDLdYmG3Nmj@cluster0.pdyas0l.mongodb.net/rastiqnetwork?retryWrites=true&w=majority",
+  { collectionName: "xp" }
+);
 
-client.db.on("ready", () => {
-    client.logger.info("Connected to the database");
+client.xpDB.on("ready", () => {
+  client.logger.info("Connected to the XP Database");
 });
 
-const connect = async function () {
-	await client.db.connect();
-}
+const XPconnect = async function () {
+  await client.xpDB.connect();
+};
 
-connect();
+XPconnect();
 
 /* async function doStuff() {
     // Setting an object in the database:
@@ -77,31 +90,50 @@ connect();
 
 client.talkedRecently = new Map();
 
+// GIVEAWAYS
+
+const { GiveawaysManager } = require("./utils/giveaways/index.js");
+const manager = new GiveawaysManager(client, {
+  storage: "./giveaways.json",
+  default: {
+    botsCanWin: false,
+    embedColor: "#FF0000",
+    embedColorEnd: "#000000",
+    reaction: "🎉",
+  },
+});
+// We now have a giveawaysManager property to access the manager everywhere!
+client.giveawaysManager = manager;
+
 // COMMANDS
 
 client.commands = new Collection();
-const commandsPath = path.join(__dirname, 'commands');
-const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+const commandsPath = path.join(__dirname, "commands");
+const commandFiles = fs
+  .readdirSync(commandsPath)
+  .filter((file) => file.endsWith(".js"));
 
 for (const file of commandFiles) {
-	const filePath = path.join(commandsPath, file);
-	const command = require(filePath);
-	client.commands.set(command.data.name, command);
+  const filePath = path.join(commandsPath, file);
+  const command = require(filePath);
+  client.commands.set(command.data.name, command);
 }
 
 // EVENTS
 
-const eventsPath = path.join(__dirname, 'events');
-const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
+const eventsPath = path.join(__dirname, "events");
+const eventFiles = fs
+  .readdirSync(eventsPath)
+  .filter((file) => file.endsWith(".js"));
 
 for (const file of eventFiles) {
-	const filePath = path.join(eventsPath, file);
-	const event = require(filePath);
-	if (event.once) {
-		client.once(event.name, (...args) => event.execute(client, ...args));
-	} else {
-		client.on(event.name, (...args) => event.execute(client, ...args));
-	}
+  const filePath = path.join(eventsPath, file);
+  const event = require(filePath);
+  if (event.once) {
+    client.once(event.name, (...args) => event.execute(client, ...args));
+  } else {
+    client.on(event.name, (...args) => event.execute(client, ...args));
+  }
 }
 
 // BOT LOGIN
