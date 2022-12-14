@@ -9,7 +9,7 @@ module.exports = async function (client, interaction) {
     await captcha.JPEGStream.pipe(
         await fs.createWriteStream(`${interaction.user.id}.jpg`)
     );
-    const file = new AttachmentBuilder(`${interaction.user.id}.jpg`);
+    const file = await new AttachmentBuilder(`${interaction.user.id}.jpg`);
     replyembed = new EmbedBuilder()
         .setColor(0x0099ff)
         .setTitle("CAPTCHA")

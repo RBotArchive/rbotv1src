@@ -1,4 +1,6 @@
 const startCaptcha = require("../utils/startCaptcha");
+const sendSuggestionModal = require("../utils/sendSuggestionModal");
+const sendSuggestion = require("../utils/sendSuggestion");
 
 module.exports = {
     name: "interactionCreate",
@@ -21,6 +23,16 @@ module.exports = {
         if (interaction.isButton()) {
             if (interaction.customId === "startcaptcha") {
                 startCaptcha(client, interaction);
+            }
+            if (interaction.customId === "makesuggestion") {
+                sendSuggestionModal(client, interaction);
+            }
+        }
+        if (interaction.isModalSubmit()) {
+            if (interaction.customId === "suggestionModal") {
+                interaction.reply({content: "Envoi de la suggestion...", ephemeral: true});
+                const suggestion = interaction.fields.getTextInputValue('suggestion');
+                sendSuggestion(client, interaction, suggestion)
             }
         }
     },

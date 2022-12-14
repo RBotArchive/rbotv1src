@@ -28,7 +28,7 @@ module.exports = {
         const rank = new canvacord.Rank()
             .setAvatar(user.avatarURL())
             .setCurrentXP(currentXp)
-            .setRequiredXP((currentLevel + 1) * 10 - currentXp)
+            .setRequiredXP((currentLevel + 1) * 10)
             .setStatus(member.presence.status)
             .setProgressBar("#FFFFFF", "COLOR")
             .setUsername(user.username)

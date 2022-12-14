@@ -31,7 +31,7 @@ winstonLoader.config("./config/winston.json");
 // Get winston logger
 client.logger = winstonLoader.getLogger("app");
 
-// DATABASE
+// DATABASES
 
 const { Database } = require("quickmongo");
 
@@ -49,6 +49,21 @@ const XPconnect = async function () {
 };
 
 XPconnect();
+
+client.suggestionDB = new Database(
+    "mongodb+srv://RASTIQ:vavdDHDLdYmG3Nmj@cluster0.pdyas0l.mongodb.net/rastiqnetwork?retryWrites=true&w=majority",
+    { collectionName: "suggestion" }
+);
+
+client.suggestionDB.on("ready", () => {
+    client.logger.info("Connected to the suggestions Database");
+});
+
+const suggestionconnect = async function () {
+    await client.suggestionDB.connect();
+};
+
+suggestionconnect();
 
 /* async function doStuff() {
     // Setting an object in the database:
