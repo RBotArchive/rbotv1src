@@ -9,6 +9,12 @@ module.exports = async function (client, interaction) {
     await captcha.JPEGStream.pipe(
         await fs.createWriteStream(`${interaction.user.id}.jpg`)
     );
+    setTimeout(() => {
+        secondStep(client, interaction, captcha);
+    }, 1000)
+};
+
+async function secondStep(client, interaction, captcha) { //Apparently needed because NJS doesn't wait for the image to completely render
     const file = await new AttachmentBuilder(`${interaction.user.id}.jpg`);
     replyembed = new EmbedBuilder()
         .setColor(0x0099ff)
@@ -69,4 +75,4 @@ module.exports = async function (client, interaction) {
             interaction.member.kick("CAPTCHA raté");
         }
     });
-};
+}
