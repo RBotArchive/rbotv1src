@@ -2,6 +2,7 @@ const { AttachmentBuilder } = require("discord.js");
 const canvacord = require("../utils/canvacord/index.js");
 const fs = require("node:fs");
 const path = require("node:path");
+const sendLog = require("../utils/sendLog.js");
 
 module.exports = {
     name: "guildMemberAdd",
@@ -20,6 +21,7 @@ module.exports = {
                 .get("1038028005315985468")
                 .send({ files: [file] });
             fs.unlink(`${user.id}_welcome.png`, () => {});
+            sendLog(client, "Nouveau membre", `${user.tag} a rejoint le serveur.`)
         });
     },
 };
