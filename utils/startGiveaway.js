@@ -1,5 +1,5 @@
 const ms = require("ms");
-const { EmbedBuilder } = require("discord.js");
+const sendLog = require("../utils/sendLog.js");
 
 module.exports = async function (client, interaction) {
     const giveawayChannel = interaction.options.getChannel("salon");
@@ -30,14 +30,11 @@ module.exports = async function (client, interaction) {
         content: `Giveaway lancé dans ${giveawayChannel} !`,
         ephemeral: true,
     });
-    replyembed = new EmbedBuilder()
-        .setColor(0x0099ff)
-        .setTitle("Giveaway lancé")
-        .setDescription(
-            `Giveaway lancé dans ${giveawayChannel} par ${interaction.user.username}.`
-        )
-        .setAuthor({ name: "RBot", iconURL: client.user.avatarURL() });
-    return client.channels.cache
-        .get("1038028006339395602")
-        .send({ embeds: [replyembed] });
+
+    sendLog(
+        client,
+        "Giveaway lancé",
+        `Giveaway lancé dans ${giveawayChannel} par ${interaction.user.username}.`
+    );
+    return;
 };

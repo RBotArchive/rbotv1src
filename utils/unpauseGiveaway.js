@@ -1,3 +1,5 @@
+const sendLog = require("../utils/sendLog.js");
+
 module.exports = async function (client, interaction) {
     const query = interaction.options.getString("giveaway");
 
@@ -34,18 +36,14 @@ module.exports = async function (client, interaction) {
         .then(() => {
             // Success message
             interaction.reply("Giveaway relancé !");
-            replyembed = new EmbedBuilder()
-                .setColor(0x0099ff)
-                .setTitle("Giveaway relancé")
-                .setDescription(
-                    `Giveaway ${interaction.options.getString(
-                        "giveaway"
-                    )} relancé par ${interaction.user.username}.`
-                )
-                .setAuthor({ name: "RBot", iconURL: client.user.avatarURL() });
-            return client.channels.cache
-                .get("1038028006339395602")
-                .send({ embeds: [replyembed] });
+            sendLog(
+                client,
+                "Giveaway relancé",
+                `Giveaway ${interaction.options.getString(
+                    "giveaway"
+                )} relancé par ${interaction.user.username}.`
+            );
+            return;
         })
         .catch((e) => {
             interaction.reply({
