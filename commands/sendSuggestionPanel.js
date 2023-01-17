@@ -1,7 +1,5 @@
-const {
-    SlashCommandBuilder
-} = require("discord.js");
-const sendSuggestionPanel = require('../utils/sendSuggestionPanel')
+const { SlashCommandBuilder } = require("discord.js");
+const sendSuggestionPanel = require("../utils/sendSuggestionPanel");
 
 module.exports = {
     data: new SlashCommandBuilder()

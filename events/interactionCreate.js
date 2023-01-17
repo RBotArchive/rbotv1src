@@ -30,9 +30,13 @@ module.exports = {
         }
         if (interaction.isModalSubmit()) {
             if (interaction.customId === "suggestionModal") {
-                interaction.reply({content: "Envoi de la suggestion...", ephemeral: true});
-                const suggestion = interaction.fields.getTextInputValue('suggestion');
-                sendSuggestion(client, interaction, suggestion)
+                interaction.reply({
+                    content: "Envoi de la suggestion...",
+                    ephemeral: true,
+                });
+                const suggestion =
+                    interaction.fields.getTextInputValue("suggestion");
+                sendSuggestion(client, interaction, suggestion);
             }
         }
     },

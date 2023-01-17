@@ -15,9 +15,7 @@ module.exports = async function (client, interaction) {
 
     // An action row only holds one text input,
     // so you need one action row per text input.
-    const firstActionRow = new ActionRowBuilder().addComponents(
-        suggestion
-    );
+    const firstActionRow = new ActionRowBuilder().addComponents(suggestion);
 
     // Add inputs to the modal
     modal.addComponents(firstActionRow);
