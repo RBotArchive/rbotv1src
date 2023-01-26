@@ -5,6 +5,7 @@ module.exports = async function (client, title, desc) {
         .setColor(0x0099ff)
         .setTitle(title)
         .setDescription(desc)
+        .setTimestamp(Date.now())
         .setAuthor({ name: "RBot", iconURL: client.user.avatarURL() });
     return client.channels.cache
         .get("1038028006339395602")

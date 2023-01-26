@@ -3,6 +3,10 @@ module.exports = {
     async execute(client, ban) {
         if (ban.partial) ban = await ban.fetch();
         user = ban.user;
-        sendLog(client, "Membre banni", `${user.tag} a été banni pour "${ban.reason}".`)
+        sendLog(
+            client,
+            "Membre banni",
+            `${user.tag} a été banni pour "${ban.reason}".`
+        );
     },
 };

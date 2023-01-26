@@ -1,4 +1,4 @@
-const { AuditLogEvent } = require('discord.js');
+const { AuditLogEvent } = require("discord.js");
 
 module.exports = {
     name: "guildMemberDelete",
@@ -10,7 +10,7 @@ module.exports = {
         });
         const kickLog = fetchedLogs.entries.first();
         if (!kickLog) {
-            sendLog(client, "Membre parti", `${user.tag} a quitté le serveur.`)
+            sendLog(client, "Membre parti", `${user.tag} a quitté le serveur.`);
         }
     },
 };

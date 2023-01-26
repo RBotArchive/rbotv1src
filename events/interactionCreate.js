@@ -1,6 +1,7 @@
 const startCaptcha = require("../utils/startCaptcha");
 const sendSuggestionModal = require("../utils/sendSuggestionModal");
 const sendSuggestion = require("../utils/sendSuggestion");
+const handleSuggestionVotes = require("../utils/handleSuggestionVotes");
 
 module.exports = {
     name: "interactionCreate",
@@ -27,6 +28,12 @@ module.exports = {
             if (interaction.customId === "makesuggestion") {
                 sendSuggestionModal(client, interaction);
             }
+            if (
+                interaction.customId === "upvote" ||
+                interaction.customId === "downvote"
+            ) {
+                await handleSuggestionVotes(client, interaction);
+            }
         }
         if (interaction.isModalSubmit()) {
             if (interaction.customId === "suggestionModal") {
@@ -36,7 +43,11 @@ module.exports = {
                 });
                 const suggestion =
                     interaction.fields.getTextInputValue("suggestion");
-                sendSuggestion(client, interaction, suggestion);
+                await sendSuggestion(client, interaction, suggestion);
+                interaction.editReply({
+                    content: "Suggestion envoyée !",
+                    ephemeral: true,
+                });
             }
         }
     },

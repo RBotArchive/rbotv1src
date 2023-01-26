@@ -1,3 +1,10 @@
+const {
+    ModalBuilder,
+    TextInputBuilder,
+    TextInputStyle,
+    ActionRowBuilder,
+} = require("discord.js");
+
 module.exports = async function (client, interaction) {
     const modal = new ModalBuilder()
         .setCustomId("suggestionModal")

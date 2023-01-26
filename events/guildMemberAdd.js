@@ -21,7 +21,11 @@ module.exports = {
                 .get("1038028005315985468")
                 .send({ files: [file] });
             fs.unlink(`${user.id}_welcome.png`, () => {});
-            sendLog(client, "Nouveau membre", `${user.tag} a rejoint le serveur.`)
+            sendLog(
+                client,
+                "Nouveau membre",
+                `${user.tag} a rejoint le serveur.`
+            );
         });
     },
 };
