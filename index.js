@@ -1,3 +1,5 @@
+process.title = "Initialisation..."
+
 // BOT INIT
 
 const fs = require("node:fs");
@@ -5,6 +7,10 @@ const path = require("node:path");
 const { Client, Collection, Events, GatewayIntentBits } = require("discord.js");
 require("dotenv").config();
 const token = process.env.TOKEN;
+const { version } = require('./package.json');
+
+require('./utils/printBanner.js')();
+process.title = "RBot v" + version + (process.env.MODE === 'dev' ? " DEV" : "")
 
 const client = new Client({
     intents: [
@@ -20,24 +26,23 @@ const client = new Client({
     ],
 });
 
+// CONFIG
+
+client.config = require(process.env.MODE === 'dev' ? './config-dev.json' : './config.json')
+
 // LOGS
 
-// Import winson-sugar when you need to have a winston instance
-const winstonLoader = require("winston-sugar");
+client.logger = require('./logger');
 
-// This should be called in the application entry point only.
-winstonLoader.config("./config/winston.json");
-
-// Get winston logger
-client.logger = winstonLoader.getLogger("app");
+client.logger.info('Starting in ' + (process.env.MODE === 'dev' ? 'DEV' : 'PROD') + " mode.")
 
 // DATABASES
 
 const { Database } = require("quickmongo");
 
 client.xpDB = new Database(
-    "mongodb+srv://RASTIQ:vavdDHDLdYmG3Nmj@cluster0.pdyas0l.mongodb.net/rastiqnetwork?retryWrites=true&w=majority",
-    { collectionName: "xp" }
+    process.env.DB_URL,
+    { collectionName: "xp" + (process.env.MODE === 'dev' ? '-dev' : '') }
 );
 
 client.xpDB.on("ready", () => {
@@ -51,12 +56,12 @@ const XPconnect = async function () {
 XPconnect();
 
 client.suggestionDB = new Database(
-    "mongodb+srv://RASTIQ:vavdDHDLdYmG3Nmj@cluster0.pdyas0l.mongodb.net/rastiqnetwork?retryWrites=true&w=majority",
-    { collectionName: "suggestion" }
+    process.env.DB_URL,
+    { collectionName: "suggestion" + (process.env.MODE === 'dev' ? '-dev' : '') }
 );
 
 client.suggestionDB.on("ready", () => {
-    client.logger.info("Connected to the suggestions Database");
+    client.logger.info("Connected to the Suggestions Database");
 });
 
 const suggestionconnect = async function () {
