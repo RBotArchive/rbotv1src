@@ -5,8 +5,16 @@ const {
     ButtonStyle,
 } = require("discord.js");
 
-module.exports = async function (client, interaction, name, desc, button, buttonid, isSuggestion = false) {
-    channel = interaction.channel || interaction
+module.exports = async function (
+    client,
+    interaction,
+    name,
+    desc,
+    button,
+    buttonid,
+    isSuggestion = false
+) {
+    channel = interaction.channel || interaction;
     row = new ActionRowBuilder().addComponents(
         new ButtonBuilder()
             .setCustomId(buttonid)
@@ -16,9 +24,7 @@ module.exports = async function (client, interaction, name, desc, button, button
     replyembed = new EmbedBuilder()
         .setColor(0x0099ff)
         .setTitle(name)
-        .setDescription(
-            desc
-        )
+        .setDescription(desc)
         .setAuthor({ name: "RBot", iconURL: client.user.avatarURL() });
     reply = await channel.send({
         embeds: [replyembed],

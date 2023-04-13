@@ -1,4 +1,4 @@
-process.title = "Initialisation..."
+process.title = "Initialisation...";
 
 // BOT INIT
 
@@ -7,10 +7,10 @@ const path = require("node:path");
 const { Client, Collection, Events, GatewayIntentBits } = require("discord.js");
 require("dotenv").config();
 const token = process.env.TOKEN;
-const { version } = require('./package.json');
+const { version } = require("./package.json");
 
-require('./utils/printBanner.js')();
-process.title = "RBot v" + version + (process.env.MODE === 'dev' ? " DEV" : "")
+require("./utils/printBanner.js")();
+process.title = "RBot v" + version + (process.env.MODE === "dev" ? " DEV" : "");
 
 const client = new Client({
     intents: [
@@ -28,22 +28,25 @@ const client = new Client({
 
 // CONFIG
 
-client.config = require(process.env.MODE === 'dev' ? './config-dev.json' : './config.json')
+client.config = require(process.env.MODE === "dev"
+    ? "./config-dev.json"
+    : "./config.json");
 
 // LOGS
 
-client.logger = require('./logger');
+client.logger = require("./logger");
 
-client.logger.info('Starting in ' + (process.env.MODE === 'dev' ? 'DEV' : 'PROD') + " mode.")
+client.logger.info(
+    "Starting in " + (process.env.MODE === "dev" ? "DEV" : "PROD") + " mode."
+);
 
 // DATABASES
 
 const { Database } = require("quickmongo");
 
-client.xpDB = new Database(
-    process.env.DB_URL,
-    { collectionName: "xp" + (process.env.MODE === 'dev' ? '-dev' : '') }
-);
+client.xpDB = new Database(process.env.DB_URL, {
+    collectionName: "xp" + (process.env.MODE === "dev" ? "-dev" : ""),
+});
 
 client.xpDB.on("ready", () => {
     client.logger.info("Connected to the XP Database");
@@ -55,10 +58,9 @@ const XPconnect = async function () {
 
 XPconnect();
 
-client.suggestionDB = new Database(
-    process.env.DB_URL,
-    { collectionName: "suggestion" + (process.env.MODE === 'dev' ? '-dev' : '') }
-);
+client.suggestionDB = new Database(process.env.DB_URL, {
+    collectionName: "suggestion" + (process.env.MODE === "dev" ? "-dev" : ""),
+});
 
 client.suggestionDB.on("ready", () => {
     client.logger.info("Connected to the Suggestions Database");
@@ -114,7 +116,8 @@ client.talkedRecently = new Map();
 
 const { GiveawaysManager } = require("./utils/giveaways/index.js");
 const manager = new GiveawaysManager(client, {
-    storage: "./giveaways" + (process.env.MODE === 'dev' ? '-dev' : '') + ".json",
+    storage:
+        "./giveaways" + (process.env.MODE === "dev" ? "-dev" : "") + ".json",
     default: {
         botsCanWin: false,
         embedColor: "#FF0000",

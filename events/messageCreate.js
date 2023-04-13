@@ -1,5 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const handleLevelChange = require("../utils/handleLevelChange.js");
+const manageRatio = require("../utils/manageRatio.js");
 
 module.exports = {
     name: "messageCreate",
@@ -36,6 +37,9 @@ module.exports = {
         }
         await client.xpDB.set(`${message.author.id}_currentXp`, newXp);
         client.talkedRecently.set(message.author.id, Date.now() + 10000);
+        if (message.content.match(/(?:^|\W)ratio(?:$|\W)/gim)) {
+            manageRatio(client, message);
+        }
         setTimeout(
             () =>
                 client.talkedRecently.delete(

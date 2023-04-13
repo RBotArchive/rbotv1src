@@ -1,5 +1,5 @@
 module.exports = async function (client, message, level) {
-    const roles = client.config.levelRoles
+    const roles = client.config.levelRoles;
     for (i = 0; i < roles.length; i++) {
         if (roles[i].level === level) {
             message.member.roles.remove(roles[i - 1].id);

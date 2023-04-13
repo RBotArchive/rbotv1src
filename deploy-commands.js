@@ -1,10 +1,16 @@
 const { REST, Routes } = require("discord.js");
 const fs = require("node:fs");
 require("dotenv").config();
-const { clientId, guildId } = require(process.env.MODE === 'dev' ? './config-dev.json' : './config.json')
+const { clientId, guildId } = require(process.env.MODE === "dev"
+    ? "./config-dev.json"
+    : "./config.json");
 const token = process.env.TOKEN;
 
-console.log('Deploying commands in ' + (process.env.MODE === 'dev' ? 'DEV' : 'PROD') + " mode.")
+console.log(
+    "Deploying commands in " +
+        (process.env.MODE === "dev" ? "DEV" : "PROD") +
+        " mode."
+);
 
 const commands = [];
 // Grab all the command files from the commands directory you created earlier

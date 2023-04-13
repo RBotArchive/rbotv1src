@@ -1,6 +1,4 @@
-const {
-    SlashCommandBuilder
-} = require("discord.js");
+const { SlashCommandBuilder } = require("discord.js");
 const createPromptPanel = require("../utils/createPromptPanel");
 
 module.exports = {
@@ -12,7 +10,14 @@ module.exports = {
         const msender = interaction.member;
         const user = interaction.options.getUser("utilisateur");
         const member = interaction.options.getMember("utilisateur");
-        createPromptPanel(client, interaction, "Bienvenue", "Bonjour ! Je suis RBot, votre guide dans ce serveur. Ce serveur est sécurisé avec un système de vérification anti-robot, donc avant d'y accéder, veuillez appuyer sur le bouton ci-dessous pour lancer la vérification. Vous aurez 60 secondes pour l'effectuer ainsi que 3 essais.", "Commencer", "startcaptcha");
+        createPromptPanel(
+            client,
+            interaction,
+            "Bienvenue",
+            "Bonjour ! Je suis RBot, votre guide dans ce serveur. Ce serveur est sécurisé avec un système de vérification anti-robot, donc avant d'y accéder, veuillez appuyer sur le bouton ci-dessous pour lancer la vérification. Vous aurez 60 secondes pour l'effectuer ainsi que 3 essais.",
+            "Commencer",
+            "startcaptcha"
+        );
         return interaction.reply({
             content: "Panel envoyé avec succès !",
             ephemeral: true,

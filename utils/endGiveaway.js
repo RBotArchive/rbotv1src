@@ -17,7 +17,8 @@ module.exports = async function (client, interaction) {
     // If no giveaway was found
     if (!giveaway) {
         return interaction.reply({
-            content: ":x: Impossible de trouver un giveaway avec `" + query + "`.",
+            content:
+                ":x: Impossible de trouver un giveaway avec `" + query + "`.",
             ephemeral: true,
         });
     }
