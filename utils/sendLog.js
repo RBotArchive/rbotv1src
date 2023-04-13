@@ -8,6 +8,6 @@ module.exports = async function (client, title, desc) {
         .setTimestamp(Date.now())
         .setAuthor({ name: "RBot", iconURL: client.user.avatarURL() });
     return client.channels.cache
-        .get("1038028006339395602")
+        .get(client.config.logsChannel)
         .send({ embeds: [replyembed] });
 };

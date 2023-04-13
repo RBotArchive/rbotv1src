@@ -8,7 +8,7 @@ module.exports = async function (client, interaction) {
     const author = suggestion.author;
     if (author === interaction.member.id) {
         return interaction.reply({
-            content: "Vous ne pouvez pas voter à votre propre suggestion !",
+            content: ":x: Vous ne pouvez pas voter à votre propre suggestion !",
             ephemeral: true,
         });
     }

@@ -21,7 +21,7 @@ module.exports = {
         try {
             await interaction.channel.bulkDelete(nb);
         }catch (e){
-            return interaction.reply({content: "Une erreur s'est produite pendant la suppression des messages !", ephemeral: true})
+            return interaction.reply({content: ":x: Une erreur s'est produite pendant la suppression des messages !", ephemeral: true})
         }
         
         sendLog(client, "Messages supprimés", `${nb} messages ont été supprimés par ${usender.tag}`)

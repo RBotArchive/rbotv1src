@@ -11,7 +11,7 @@ module.exports = {
         const member = interaction.options.getMember("utilisateur");
         client.logger.info(user.tag + " did a ping test.");
         firstMsg = await client.channels.cache
-            .get("1038028006339395602")
+            .get(client.config.logsChannel)
             .send("[RBOT] Ping test...");
         ping = firstMsg.createdTimestamp - interaction.createdTimestamp;
         replyembed = new EmbedBuilder()

@@ -21,7 +21,7 @@ async function secondStep(client, interaction, captcha) {
         .setColor(0x0099ff)
         .setTitle("CAPTCHA")
         .setDescription(
-            "Le système de vérification est simple. Vous devez simplement écrire les lettres et chiffres contenus dans l'image ci-dessous pour obtenir accès au serveur."
+            "Le système de vérification est facile à comprendre. Vous devez tout simplement écrire les lettres et chiffres contenus dans l'image ci-dessous pour obtenir accès au serveur."
         )
         .setAuthor({ name: "RBot", iconURL: client.user.avatarURL() });
     await interaction.reply({
@@ -61,14 +61,13 @@ async function secondStep(client, interaction, captcha) {
                 content: `:white_check_mark: Bienvenue sur le serveur !`,
                 ephemeral: true,
             });
-            interaction.member.roles.add("1038028003982196744");
-            interaction.member.roles.add("1038028003982196737");
-            interaction.member.roles.add("1038028003982196736");
-            interaction.member.roles.add("1038028003822805066");
+            for (role of client.config.captchaCompleteRoles) {
+                interaction.member.roles.add(role);
+            }
         } else {
             client.logger.info(`${interaction.user.tag} failed CAPTCHA`);
             await interaction.member.createDM();
-            interaction.member.dmChannel.send({
+            await interaction.member.dmChannel.send({
                 content:
                     ":x: Vous avez été expulsé du serveur car vous avez raté vos 3 essais de CAPTCHA.",
                 ephemeral: true,

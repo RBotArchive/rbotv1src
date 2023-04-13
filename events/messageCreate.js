@@ -29,7 +29,7 @@ module.exports = {
                         (await handleLevelChange(client, message, newLevel))
                 )
                 .setAuthor({ name: "RBot", iconURL: client.user.avatarURL() });
-            client.channels.cache.get("1038028006037397575").send({
+            client.channels.cache.get(client.config.newLevelChannel).send({
                 content: `<@${message.author.id}>`,
                 embeds: [newlevelembed],
             });

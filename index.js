@@ -114,7 +114,7 @@ client.talkedRecently = new Map();
 
 const { GiveawaysManager } = require("./utils/giveaways/index.js");
 const manager = new GiveawaysManager(client, {
-    storage: "./giveaways.json",
+    storage: "./giveaways" + (process.env.MODE === 'dev' ? '-dev' : '') + ".json",
     default: {
         botsCanWin: false,
         embedColor: "#FF0000",

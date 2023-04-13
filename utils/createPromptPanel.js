@@ -5,23 +5,26 @@ const {
     ButtonStyle,
 } = require("discord.js");
 
-module.exports = async function (client, channel) {
+module.exports = async function (client, interaction, name, desc, button, buttonid, isSuggestion = false) {
+    channel = interaction.channel || interaction
     row = new ActionRowBuilder().addComponents(
         new ButtonBuilder()
-            .setCustomId("makesuggestion")
-            .setLabel("Créer une suggestion")
+            .setCustomId(buttonid)
+            .setLabel(button)
             .setStyle(ButtonStyle.Success)
     );
     replyembed = new EmbedBuilder()
         .setColor(0x0099ff)
-        .setTitle("Suggestion")
+        .setTitle(name)
         .setDescription(
-            "Bienvenue dans le salon de suggestions. Vous pouvez voir les suggestions au dessus de ce message. Pour en créer une, cliquez sur le bouton ci-dessous."
+            desc
         )
         .setAuthor({ name: "RBot", iconURL: client.user.avatarURL() });
     reply = await channel.send({
         embeds: [replyembed],
         components: [row],
     });
-    client.suggestionDB.set("suggestionPanelID", reply.id);
+    if (isSuggestion === true) {
+        client.suggestionDB.set("suggestionPanelID", reply.id);
+    }
 };

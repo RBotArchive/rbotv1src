@@ -1,5 +1,5 @@
-const sendSuggestionPanelMSG = require("./sendSuggestionPanelMSG");
+const createPromptPanel = require("./createPromptPanel");
 
 module.exports = async function (client, interaction) {
-    sendSuggestionPanelMSG(client, interaction.channel);
+    createPromptPanel(client, interaction, "Suggestion", "Bienvenue dans le salon de suggestions. Vous pouvez voir les suggestions au dessus de ce message. Pour en créer une, cliquez sur le bouton ci-dessous.", "Créer une suggestion", "makesuggestion", true);
 };

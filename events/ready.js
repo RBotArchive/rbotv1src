@@ -6,7 +6,7 @@ module.exports = {
         client.logger.info("Ready!");
         statuses = [
             "RASTIQNetwork",
-            client.guilds.cache.get("1038028003822805065").memberCount +
+            client.guilds.cache.get(client.config.guildId).memberCount +
                 " joueurs",
         ];
         statustypes = [ActivityType.Playing, ActivityType.Watching];

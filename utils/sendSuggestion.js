@@ -4,7 +4,7 @@ const {
     ButtonBuilder,
     ButtonStyle,
 } = require("discord.js");
-const sendSuggestionPanelMSG = require("./sendSuggestionPanelMSG");
+const sendSuggestionPanel = require("./sendSuggestionPanel");
 
 module.exports = async function (client, interaction, suggestion) {
     const embed = new EmbedBuilder()
@@ -19,7 +19,7 @@ module.exports = async function (client, interaction, suggestion) {
         new ButtonBuilder()
             .setStyle(ButtonStyle.Primary)
             .setLabel("Upvote")
-            .setEmoji(":up:1066683099305484338")
+            .setEmoji(client.config.upEmoji)
             .setCustomId("upvote"),
         new ButtonBuilder()
             .setStyle(ButtonStyle.Secondary)
@@ -29,10 +29,10 @@ module.exports = async function (client, interaction, suggestion) {
         new ButtonBuilder()
             .setStyle(ButtonStyle.Danger)
             .setLabel("Downvote")
-            .setEmoji(":down:1066683097304797184")
+            .setEmoji(client.config.downEmoji)
             .setCustomId("downvote")
     );
-    channel = await client.channels.fetch("1038028005714448407");
+    channel = await client.channels.fetch(client.config.suggestionsChannel);
     const msg = await channel.send({ embeds: [embed], components: [row] });
     await client.suggestionDB.set(`suggestion_${msg.id}`, {
         author: interaction.member.id,
@@ -40,5 +40,5 @@ module.exports = async function (client, interaction, suggestion) {
     });
     oldMessageID = await client.suggestionDB.get("suggestionPanelID");
     await channel.messages.cache.get(oldMessageID).delete();
-    sendSuggestionPanelMSG(client, channel);
+    sendSuggestionPanel(client, channel);
 };
