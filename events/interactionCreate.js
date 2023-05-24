@@ -1,7 +1,7 @@
-const startCaptcha = require("../utils/startCaptcha");
-const sendSuggestionModal = require("../utils/sendSuggestionModal");
-const sendSuggestion = require("../utils/sendSuggestion");
-const handleSuggestionVotes = require("../utils/handleSuggestionVotes");
+const startCaptcha = require("../utils/captcha/startCaptcha");
+const sendSuggestionModal = require("../utils/suggestions/sendSuggestionModal");
+const sendSuggestion = require("../utils/suggestions/sendSuggestion");
+const handleSuggestionVotes = require("../utils/suggestions/handleSuggestionVotes");
 
 module.exports = {
     name: "interactionCreate",

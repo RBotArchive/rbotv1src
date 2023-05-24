@@ -9,7 +9,7 @@ require("dotenv").config();
 const token = process.env.TOKEN;
 const { version } = require("./package.json");
 
-require("./utils/printBanner.js")();
+require("./utils/general/printBanner.js")();
 process.title = "RBot v" + version + (process.env.MODE === "dev" ? " DEV" : "");
 
 const client = new Client({
@@ -72,6 +72,20 @@ const suggestionconnect = async function () {
 
 suggestionconnect();
 
+client.ratioDB = new Database(process.env.DB_URL, {
+    collectionName: "ratio" + (process.env.MODE === "dev" ? "-dev" : ""),
+});
+
+client.ratioDB.on("ready", () => {
+    client.logger.info("Connected to the Ratios Database");
+});
+
+const ratioconnect = async function () {
+    await client.ratioDB.connect();
+};
+
+ratioconnect();
+
 /* async function doStuff() {
     // Setting an object in the database:
     await db.set("userInfo", { difficulty: "Easy" });
@@ -114,10 +128,10 @@ client.talkedRecently = new Map();
 
 // GIVEAWAYS
 
-const { GiveawaysManager } = require("./utils/giveaways/index.js");
+const { GiveawaysManager } = require("./utils/discord-giveaways/index.js");
 const manager = new GiveawaysManager(client, {
     storage:
-        "./giveaways" + (process.env.MODE === "dev" ? "-dev" : "") + ".json",
+        "./discord-giveaways" + (process.env.MODE === "dev" ? "-dev" : "") + ".json",
     default: {
         botsCanWin: false,
         embedColor: "#FF0000",

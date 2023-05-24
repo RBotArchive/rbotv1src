@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
-const handleLevelChange = require("../utils/handleLevelChange.js");
-const manageRatio = require("../utils/manageRatio.js");
+const handleLevelChange = require("../utils/general/handleLevelChange.js");
+const manageRatio = require("../utils/ratio/manageRatio.js");
 
 module.exports = {
     name: "messageCreate",

@@ -1,0 +1,55 @@
+const sendLog = require("../general/sendLog.js");
+
+module.exports = async function (client, interaction) {
+    const query = interaction.options.getString("giveaway");
+
+    // try to found the giveaway with prize then with ID
+    const giveaway =
+        // Search with giveaway prize
+        client.giveawaysManager.giveaways.find(
+            (g) => g.prize === query && g.guildId === interaction.guild.id
+        ) ||
+        // Search with giveaway ID
+        client.giveawaysManager.giveaways.find(
+            (g) => g.messageId === query && g.guildId === interaction.guild.id
+        );
+
+    // If no giveaway was found
+    if (!giveaway) {
+        return interaction.reply({
+            content:
+                ":x: Impossible de trouver un giveaway avec `" + query + "`.",
+            ephemeral: true,
+        });
+    }
+
+    if (!giveaway.pauseOptions.isPaused) {
+        return interaction.reply({
+            content: ":x: Ce giveaway n'est pas en pause.",
+            ephemeral: true,
+        });
+    }
+
+    // Edit the giveaway
+    client.giveawaysManager
+        .unpause(giveaway.messageId)
+        // Success message
+        .then(() => {
+            // Success message
+            interaction.reply("Giveaway relancé !");
+            sendLog(
+                client,
+                "Giveaway relancé",
+                `Giveaway ${interaction.options.getString(
+                    "giveaway"
+                )} relancé par ${interaction.user.username}.`
+            );
+            return;
+        })
+        .catch((e) => {
+            interaction.reply({
+                content: e,
+                ephemeral: true,
+            });
+        });
+};

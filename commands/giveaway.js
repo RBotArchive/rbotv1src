@@ -1,9 +1,9 @@
 const { SlashCommandBuilder } = require("discord.js");
-const startGiveaway = require("../utils/startGiveaway");
-const endGiveaway = require("../utils/endGiveaway");
-const pauseGiveaway = require("../utils/pauseGiveaway");
-const unpauseGiveaway = require("../utils/unpauseGiveaway");
-const rerollGiveaway = require("../utils/rerollGiveaway");
+const startGiveaway = require("../utils/giveaways/startGiveaway");
+const endGiveaway = require("../utils/giveaways/endGiveaway");
+const pauseGiveaway = require("../utils/giveaways/pauseGiveaway");
+const unpauseGiveaway = require("../utils/giveaways/unpauseGiveaway");
+const rerollGiveaway = require("../utils/giveaways/rerollGiveaway");
 const ms = require("ms");
 
 module.exports = {
