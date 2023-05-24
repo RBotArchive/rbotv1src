@@ -1,5 +1,5 @@
 const { AttachmentBuilder } = require("discord.js");
-const canvacord = require("../utils/canvacord/index.js");
+const canvacord = require("canvacord");
 const fs = require("node:fs");
 const path = require("node:path");
 const sendLog = require("../utils/general/sendLog.js");

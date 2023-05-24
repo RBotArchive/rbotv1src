@@ -1,9 +1,9 @@
 const { SlashCommandBuilder } = require("discord.js");
-const startGiveaway = require("../utils/giveaways/startGiveaway");
-const endGiveaway = require("../utils/giveaways/endGiveaway");
-const pauseGiveaway = require("../utils/giveaways/pauseGiveaway");
-const unpauseGiveaway = require("../utils/giveaways/unpauseGiveaway");
-const rerollGiveaway = require("../utils/giveaways/rerollGiveaway");
+const startGiveaway = require("../../utils/giveaways/startGiveaway");
+const endGiveaway = require("../../utils/giveaways/endGiveaway");
+const pauseGiveaway = require("../../utils/giveaways/pauseGiveaway");
+const unpauseGiveaway = require("../../utils/giveaways/unpauseGiveaway");
+const rerollGiveaway = require("../../utils/giveaways/rerollGiveaway");
 const ms = require("ms");
 
 module.exports = {
@@ -98,20 +98,23 @@ module.exports = {
         const msender = interaction.member;
         const user = interaction.options.getUser("utilisateur");
         const member = interaction.options.getMember("utilisateur");
-        if (interaction.options.getSubcommand() === "start") {
+
+        switch (interaction.options.getSubcommand()) {
+          case "start":
             await startGiveaway(client, interaction);
-        }
-        if (interaction.options.getSubcommand() === "end") {
+            break;
+          case "end":
             await endGiveaway(client, interaction);
-        }
-        if (interaction.options.getSubcommand() === "pause") {
+            break;
+          case "pause":
             await pauseGiveaway(client, interaction);
-        }
-        if (interaction.options.getSubcommand() === "unpause") {
+            break;
+          case "unpause":
             await unpauseGiveaway(client, interaction);
-        }
-        if (interaction.options.getSubcommand() === "reroll") {
+            break;
+          case "reroll":
             await rerollGiveaway(client, interaction);
+            break;
         }
     },
 };

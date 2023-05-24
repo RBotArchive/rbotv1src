@@ -1,10 +1,10 @@
 process.title = "Initialisation...";
 
-// BOT INIT
+// GENERAL
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { Client, Collection, Events, GatewayIntentBits } = require("discord.js");
+const { Client, Collection, GatewayIntentBits } = require("discord.js");
 require("dotenv").config();
 const token = process.env.TOKEN;
 const { version } = require("./package.json");
@@ -128,7 +128,7 @@ client.talkedRecently = new Map();
 
 // GIVEAWAYS
 
-const { GiveawaysManager } = require("./utils/discord-giveaways/index.js");
+const { GiveawaysManager } = require("discord-giveaways");
 const manager = new GiveawaysManager(client, {
     storage:
         "./discord-giveaways" + (process.env.MODE === "dev" ? "-dev" : "") + ".json",
@@ -145,15 +145,17 @@ client.giveawaysManager = manager;
 // COMMANDS
 
 client.commands = new Collection();
-const commandsPath = path.join(__dirname, "commands");
-const commandFiles = fs
-    .readdirSync(commandsPath)
-    .filter((file) => file.endsWith(".js"));
+const foldersPath = path.join(__dirname, 'commands');
+const commandFolders = fs.readdirSync(foldersPath);
 
-for (const file of commandFiles) {
-    const filePath = path.join(commandsPath, file);
-    const command = require(filePath);
-    client.commands.set(command.data.name, command);
+for (const folder of commandFolders) {
+    const commandsPath = path.join(foldersPath, folder);
+    const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+    for (const file of commandFiles) {
+        const filePath = path.join(commandsPath, file);
+        const command = require(filePath);
+        client.commands.set(command.data.name, command);
+    }
 }
 
 // EVENTS
