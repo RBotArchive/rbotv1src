@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const generateEmbed = require("../../utils/general/generateEmbed");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -9,17 +10,12 @@ module.exports = {
         const msender = interaction.member;
         const user = interaction.options.getUser("utilisateur");
         const member = interaction.options.getMember("utilisateur");
-        client.logger.info(user.tag + " did a ping test.");
+        client.logger.info(usender.tag + " did a ping test.");
         firstMsg = await client.channels.cache
             .get(client.config.logsChannel)
             .send("[RBOT] Ping test...");
         ping = firstMsg.createdTimestamp - interaction.createdTimestamp;
-        replyembed = new EmbedBuilder()
-            .setColor(0x0099ff)
-            .setTitle("Pong ! 🏓")
-            .setDescription("Le ping actuel du bot est de " + ping + "ms.")
-            .setAuthor({ name: "RBot", iconURL: client.user.avatarURL() })
-            .setFooter({ text: "Demandé par " + usender.tag });
+        replyembed = generateEmbed(client, "Pong ! 🏓", "Le ping actuel du bot est de " + ping + "ms.", usender)
         return interaction.reply({ embeds: [replyembed] });
     },
 };
